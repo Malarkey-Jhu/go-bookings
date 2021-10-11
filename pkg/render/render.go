@@ -9,6 +9,7 @@ import (
 
 	"github.com/Malarkey-Jhu/go-bookings/pkg/config"
 	"github.com/Malarkey-Jhu/go-bookings/pkg/models"
+	"github.com/justinas/nosurf"
 )
 
 var functions = template.FuncMap{}
@@ -19,12 +20,13 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
 	// can add some default template data to all templates
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
-func RenderTemplates(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
+func RenderTemplates(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) {
 
 	var tc map[string]*template.Template
 	if app.UseCache {
@@ -38,7 +40,7 @@ func RenderTemplates(w http.ResponseWriter, tmpl string, td *models.TemplateData
 		log.Fatal("Cannot get the template from cache")
 	}
 
-	td = AddDefaultData(td)
+	td = AddDefaultData(td, r)
 	_ = t.Execute(w, td)
 }
 

@@ -29,14 +29,38 @@ func NewHandlers(r *Repository) {
 }
 
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplates(w, "home.page.tmpl", &models.TemplateData{})
+	render.RenderTemplates(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	stringMap := map[string]string{
 		"test": "Hello, again",
 	}
-	render.RenderTemplates(w, "about.page.tmpl", &models.TemplateData{
+	render.RenderTemplates(w, r, "about.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
+}
+
+func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplates(w, r, "make-reservation.page.tmpl", &models.TemplateData{})
+}
+
+func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplates(w, r, "generals.page.tmpl", &models.TemplateData{})
+}
+
+func (m *Repository) Majors(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplates(w, r, "majors.page.tmpl", &models.TemplateData{})
+}
+
+func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplates(w, r, "search-availability.page.tmpl", &models.TemplateData{})
+}
+
+func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Post to search availabity"))
+}
+
+func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplates(w, r, "contact.page.tmpl", &models.TemplateData{})
 }
