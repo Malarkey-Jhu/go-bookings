@@ -1,5 +1,7 @@
 package models
 
+import "github.com/Malarkey-Jhu/go-bookings/internal/forms"
+
 // TemplateData holds data sent from handlers to templagtes
 type TemplateData struct {
 	StringMap map[string]string
@@ -10,4 +12,5 @@ type TemplateData struct {
 	Flash     string /* tool tip message */
 	Warning   string
 	Error     string
+	Form      *forms.Form
 }

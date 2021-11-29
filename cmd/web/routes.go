@@ -3,8 +3,8 @@ package main
 import (
 	"net/http"
 
-	"github.com/Malarkey-Jhu/go-bookings/pkg/config"
-	"github.com/Malarkey-Jhu/go-bookings/pkg/handlers"
+	"github.com/Malarkey-Jhu/go-bookings/internal/config"
+	"github.com/Malarkey-Jhu/go-bookings/internal/handlers"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -21,6 +21,9 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/about", handlers.Repo.About)
 
 	mux.Get("/make-reservation", handlers.Repo.Reservation)
+	mux.Post("/make-reservation", handlers.Repo.PostReservation)
+	mux.Get("/reservation-summary", handlers.Repo.ReservationSummary)
+
 	mux.Get("/generals-quarters", handlers.Repo.Generals)
 	mux.Get("/majors-suite", handlers.Repo.Majors)
 	mux.Get("/search-availability", handlers.Repo.Availability)
