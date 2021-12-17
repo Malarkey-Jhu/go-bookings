@@ -71,7 +71,7 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	form := forms.New(r.PostForm)
 
 	form.Required("first_name", "last_name", "phone")
-	form.MinLength("first_name", 3, r)
+	form.MinLength("first_name", 3)
 	form.IsEmail("email")
 
 	if !form.Valid() {
@@ -109,7 +109,7 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 
 type jsonResponse struct {
 	OK      bool   `json:"ok"`
-	Message string `json:"string"`
+	Message string `json:"message"`
 }
 
 func (m *Repository) AvailabilityJson(w http.ResponseWriter, r *http.Request) {
@@ -133,7 +133,6 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
 	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
 	if !ok {
-
 		log.Println("cannot get item from session")
 		m.App.Session.Put(r.Context(), "error", "can not get reservatino from session")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
