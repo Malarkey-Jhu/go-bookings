@@ -21,10 +21,10 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: reservation; Type: TABLE; Schema: public; Owner: alan_pc
+-- Name: reservations; Type: TABLE; Schema: public; Owner: alan_pc
 --
 
-CREATE TABLE public.reservation (
+CREATE TABLE public.reservations (
     id integer NOT NULL,
     first_name character varying(255) DEFAULT ''::character varying NOT NULL,
     last_name character varying(255) DEFAULT ''::character varying NOT NULL,
@@ -38,13 +38,13 @@ CREATE TABLE public.reservation (
 );
 
 
-ALTER TABLE public.reservation OWNER TO alan_pc;
+ALTER TABLE public.reservations OWNER TO alan_pc;
 
 --
--- Name: reservation_id_seq; Type: SEQUENCE; Schema: public; Owner: alan_pc
+-- Name: reservations_id_seq; Type: SEQUENCE; Schema: public; Owner: alan_pc
 --
 
-CREATE SEQUENCE public.reservation_id_seq
+CREATE SEQUENCE public.reservations_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -53,13 +53,13 @@ CREATE SEQUENCE public.reservation_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.reservation_id_seq OWNER TO alan_pc;
+ALTER TABLE public.reservations_id_seq OWNER TO alan_pc;
 
 --
--- Name: reservation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alan_pc
+-- Name: reservations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: alan_pc
 --
 
-ALTER SEQUENCE public.reservation_id_seq OWNED BY public.reservation.id;
+ALTER SEQUENCE public.reservations_id_seq OWNED BY public.reservations.id;
 
 
 --
@@ -226,10 +226,10 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- Name: reservation id; Type: DEFAULT; Schema: public; Owner: alan_pc
+-- Name: reservations id; Type: DEFAULT; Schema: public; Owner: alan_pc
 --
 
-ALTER TABLE ONLY public.reservation ALTER COLUMN id SET DEFAULT nextval('public.reservation_id_seq'::regclass);
+ALTER TABLE ONLY public.reservations ALTER COLUMN id SET DEFAULT nextval('public.reservations_id_seq'::regclass);
 
 
 --
@@ -261,11 +261,11 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- Name: reservation reservation_pkey; Type: CONSTRAINT; Schema: public; Owner: alan_pc
+-- Name: reservations reservations_pkey; Type: CONSTRAINT; Schema: public; Owner: alan_pc
 --
 
-ALTER TABLE ONLY public.reservation
-    ADD CONSTRAINT reservation_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.reservations
+    ADD CONSTRAINT reservations_pkey PRIMARY KEY (id);
 
 
 --
@@ -301,17 +301,17 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: reservation_email_idx; Type: INDEX; Schema: public; Owner: alan_pc
+-- Name: reservations_email_idx; Type: INDEX; Schema: public; Owner: alan_pc
 --
 
-CREATE INDEX reservation_email_idx ON public.reservation USING btree (email);
+CREATE INDEX reservations_email_idx ON public.reservations USING btree (email);
 
 
 --
--- Name: reservation_last_name_idx; Type: INDEX; Schema: public; Owner: alan_pc
+-- Name: reservations_last_name_idx; Type: INDEX; Schema: public; Owner: alan_pc
 --
 
-CREATE INDEX reservation_last_name_idx ON public.reservation USING btree (last_name);
+CREATE INDEX reservations_last_name_idx ON public.reservations USING btree (last_name);
 
 
 --
@@ -350,19 +350,19 @@ CREATE UNIQUE INDEX users_email_idx ON public.users USING btree (email);
 
 
 --
--- Name: reservation reservation_rooms_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: alan_pc
+-- Name: reservations reservations_rooms_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: alan_pc
 --
 
-ALTER TABLE ONLY public.reservation
-    ADD CONSTRAINT reservation_rooms_id_fk FOREIGN KEY (room_id) REFERENCES public.rooms(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.reservations
+    ADD CONSTRAINT reservations_rooms_id_fk FOREIGN KEY (room_id) REFERENCES public.rooms(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: room_restrictions room_restrictions_reservation_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: alan_pc
+-- Name: room_restrictions room_restrictions_reservations_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: alan_pc
 --
 
 ALTER TABLE ONLY public.room_restrictions
-    ADD CONSTRAINT room_restrictions_reservation_id_fk FOREIGN KEY (reservation_id) REFERENCES public.reservation(id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT room_restrictions_reservations_id_fk FOREIGN KEY (reservation_id) REFERENCES public.reservations(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
