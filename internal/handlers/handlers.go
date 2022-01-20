@@ -6,24 +6,30 @@ import (
 	"net/http"
 
 	"github.com/Malarkey-Jhu/go-bookings/internal/config"
+	"github.com/Malarkey-Jhu/go-bookings/internal/driver"
 	"github.com/Malarkey-Jhu/go-bookings/internal/forms"
 	"github.com/Malarkey-Jhu/go-bookings/internal/helpers"
 	"github.com/Malarkey-Jhu/go-bookings/internal/models"
 	"github.com/Malarkey-Jhu/go-bookings/internal/render"
+	"github.com/Malarkey-Jhu/go-bookings/internal/repository"
+	"github.com/Malarkey-Jhu/go-bookings/internal/repository/dbrepo"
 )
 
 // Repo is the repository used by handlers
 var Repo *Repository
 
-// Repository is the repository type
+// Repository is the repository type, things that you want to exposed to handlers
 type Repository struct {
 	App *config.AppConfig
+	// is an interface, can easily swapped out with differenr type of driver
+	DB repository.DataBaseRepo
 }
 
 // NewRepo creates a new repository
-func NewRepo(a *config.AppConfig) *Repository {
+func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
 		App: a,
+		DB:  dbrepo.NewPostgresRepo(db.SQL, a),
 	}
 }
 
@@ -33,6 +39,7 @@ func NewHandlers(r *Repository) {
 }
 
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
+	// m.DB.AllUsers()
 	render.RenderTemplates(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 
